@@ -40,7 +40,7 @@ if (!isset($_SESSION['personell_nr'])) {
 require_once('appvars.php');
 require_once('connectvars.php');
 
-if (isset($_SESSION['login_id'])) {
+if (isset($_SESSION['login_id']) && ($_SESSION['zm_role']) >= 2) {
 ?>
 
 <div id="wrapper">

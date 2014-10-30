@@ -2962,6 +2962,7 @@
       <column name="create_id" sqlType="VARCHAR" precision="35" scale="0" nullable="false" jdbcType="12"/>
       <column name="create_time" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
       <column name="zm_role" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MQ=="/>
+      <column name="ziek" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
       <primary-key name="PRIMARY" columns="login_id"/>
       <index name="personell_nr" unique="true" columns="personell_nr"/>
       <index name="user_role" unique="false" columns="user_role"/>
@@ -3057,7 +3058,7 @@
     <table name="ziekmeldingen" schema="" catalog="care2x_test" type="TABLE">
       <column name="ziekmelding_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="ziekdatum" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <column name="beterdatum" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="beterdatum" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="personell_nr" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="ziekmelding_id"/>
     </table>

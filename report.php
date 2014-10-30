@@ -42,7 +42,7 @@ $data = mysqli_query($dbc, $query);
 
 </head>
 <body>
-<?php if (isset($_SESSION['login_id'])) { ?>
+<?php if (isset($_SESSION['login_id']) && ($_SESSION['zm_role'])  >= 2) { ?>
 <div id="wrapper">
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
@@ -107,8 +107,7 @@ $data = mysqli_query($dbc, $query);
                                 if ($data->num_rows > 0) {
                                     // output data of each row
                                     while ($row = $data->fetch_assoc()) {
-                                        echo "<td>" . $row["ziekmelding_id"] . "</td><td>" . $row["personell_nr"] . "</td><td>" . $row["ziekdatum"] . "</td><td>" . $row["beterdatum"] . "</td>";
-                                        echo "";
+                                        echo "<td>" . $row["ziekmelding_id"] . "</td><td>" . $row["personell_nr"] . "</td><td>" . $row["ziekdatum"] . "</td><td>" . $row["beterdatum"] . "</td></tr><tr>";
                                     }
                                 } ?>
                             </tr>

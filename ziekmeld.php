@@ -10,10 +10,9 @@ if (!isset($_SESSION['personell_nr'])) {
     }
 }
 require_once('connectvars.php');
+require_once('include/functies.php');
+set_ziek($_SESSION['personell_nr']);
 
-
-$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-$query = "WHERE"
 
 ?>
 
@@ -93,13 +92,20 @@ if (isset($_SESSION['login_id'])) {
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Ziekmelden</h1>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="btn-group-vertical">
-
-                    </div>
+                    <?php if ($_SESSION['ziek'] == '0') { ?>
+                    <form class="form-ziekmelden" role="form" method="post" action="include/ziekmelden.php">
+                        <div class="btn-group-vertical">
+                            <button class="btn btn-block btn-warning">Ziek melden</button>
+                        </div>
+                    </form>
+                    <?php
+                    } else { ?>
+                        <form class="form-ziekmelden" role="form" method="post" action="include/betermelden.php">
+                            <div class="btn-group-vertical">
+                                <button class="btn btn-block btn-success">Beter melden</button>
+                            </div>
+                        </form>
+                    <?php } ?>
                     <br>
                     <br>
                     <br>
@@ -122,11 +128,6 @@ else {
     $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
     header('Location: ' . $home_url);
 }
-
-// Connect to the database
-$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-mysqli_close($dbc);
 ?>
 <!-- Content -->
 
