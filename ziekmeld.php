@@ -56,13 +56,13 @@ if (isset($_SESSION['login_id'])) {
             <li>
                 <a href="ziekmeld.php"><span class="glyphicon glyphicon-user"></span> Ziekmelden</a>
             </li>
-            <?php if ($_SESSION['personell_nr'] >= 2) { ?>
+            <?php if ($_SESSION['zm_role'] >= 2) { ?>
                 <li>
                     <a href="report.php"><span class="glyphicon glyphicon-list-alt"></span> Rapportage</a>
                 </li>
             <?php
             }
-            if ($_SESSION['personell_nr'] >= 3) { ?>
+            if ($_SESSION['zm_role'] >= 3) { ?>
                 <li>
                     <a href="manage.php"><span class="glyphicon glyphicon-cog"></span> Beheer</a>
                 </li>
@@ -94,16 +94,12 @@ if (isset($_SESSION['login_id'])) {
                 <div class="col-lg-12">
                     <?php if ($_SESSION['ziek'] == '0') { ?>
                     <form class="form-ziekmelden" role="form" method="post" action="include/ziekmelden.php">
-                        <div class="btn-group-vertical">
-                            <button class="btn btn-block btn-warning">Ziek melden</button>
-                        </div>
+                        <button class="btn btn-primary btn-lg btn-block">Ziek melden</button>
                     </form>
                     <?php
                     } else { ?>
                         <form class="form-ziekmelden" role="form" method="post" action="include/betermelden.php">
-                            <div class="btn-group-vertical">
-                                <button class="btn btn-block btn-success">Beter melden</button>
-                            </div>
+                            <button class="btn btn-warning btn-lg btn-block">Beter melden</button>
                         </form>
                     <?php } ?>
                     <br>
@@ -133,6 +129,8 @@ else {
 
 <!-- jQuery Version 1.11.0 -->
 <script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="js/dataTables.bootstrap.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>

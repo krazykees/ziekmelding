@@ -54,13 +54,13 @@ if (isset($_SESSION['login_id']) && ($_SESSION['zm_role']) >= 2) {
             <li>
                 <a href="ziekmeld.php"><span class="glyphicon glyphicon-user"></span> Ziekmelden</a>
             </li>
-            <?php if ($_SESSION['personell_nr'] >= 2) { ?>
+            <?php if ($_SESSION['zm_role'] >= 2) { ?>
                 <li>
                     <a href="report.php"><span class="glyphicon glyphicon-list-alt"></span> Rapportage</a>
                 </li>
             <?php
             }
-            if ($_SESSION['personell_nr'] >= 3) { ?>
+            if ($_SESSION['zm_role'] >= 3) { ?>
                 <li>
                     <a href="manage.php"><span class="glyphicon glyphicon-cog"></span> Beheer</a>
                 </li>

@@ -40,6 +40,18 @@ $data = mysqli_query($dbc, $query);
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- dataTable scripts -->
+    <link href="css/dataTables.bootstrap.css" rel="stylesheet">
+    <script type="text/javascript" language="javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="js/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            $('#example').dataTable();
+        } );
+    </script>
+
+
 </head>
 <body>
 <?php if (isset($_SESSION['login_id']) && ($_SESSION['zm_role'])  >= 2) { ?>
@@ -53,13 +65,13 @@ $data = mysqli_query($dbc, $query);
             <li>
                 <a href="ziekmeld.php"><span class="glyphicon glyphicon-user"></span> Ziekmelden</a>
             </li>
-            <?php if ($_SESSION['personell_nr'] >= 2) { ?>
+            <?php if ($_SESSION['zm_role'] >= 2) { ?>
                 <li>
                     <a href="report.php"><span class="glyphicon glyphicon-list-alt"></span> Rapportage</a>
                 </li>
             <?php
             }
-            if ($_SESSION['personell_nr'] >= 3) { ?>
+            if ($_SESSION['zm_role'] >= 3) { ?>
                 <li>
                     <a href="manage.php"><span class="glyphicon glyphicon-cog"></span> Beheer</a>
                 </li>
@@ -95,22 +107,24 @@ $data = mysqli_query($dbc, $query);
                     <br>
                     <br>
                     <div class="well-sm">
-                        <table class="table table-responsive table-striped table-hover">
+                        <table class="table table-responsive table-striped table-hover" width=100%" cellspacing="0" id="example">
+                            <thead>
                             <tr>
-                                <td>ID</td>
-                                <td>Personeel Nummer</td>
-                                <td>Ziek Sinds</td>
-                                <td>Beter sinds</td>
+                                <th>ID</td>
+                                <th>Personeel Nummer</th>
+                                <th>Ziek Sinds</th>
+                                <th>Beter sinds</th>
                             </tr>
-                            <tr>
-                                <?php
+                            </thead>
+                            <tbody>
+                            <?php
                                 if ($data->num_rows > 0) {
                                     // output data of each row
                                     while ($row = $data->fetch_assoc()) {
-                                        echo "<td>" . $row["ziekmelding_id"] . "</td><td>" . $row["personell_nr"] . "</td><td>" . $row["ziekdatum"] . "</td><td>" . $row["beterdatum"] . "</td></tr><tr>";
+                                        echo "<tr><td>" . $row["ziekmelding_id"] . "</td><td>" . $row["personell_nr"] . "</td><td>" . $row["ziekdatum"] . "</td><td>" . $row["beterdatum"] . "</td></tr>\n ";
                                     }
                                 } ?>
-                            </tr>
+                            </tbody>
                         </table>
                     </div>
                     <br>
@@ -145,9 +159,6 @@ $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 mysqli_close($dbc);
 ?>
 <!-- Content -->
-
-<!-- jQuery Version 1.11.0 -->
-<script src="js/jquery-1.11.1.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
