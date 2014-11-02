@@ -21,3 +21,17 @@ function set_ziek($personell_nr) {
     mysqli_close($dbc);
 
 }
+
+function user_role() {
+    if (isset($_SESSION['zm_role'])) {
+        if ($_SESSION['zm_role'] == 1) {
+            echo "Gebruiker";
+        } elseif ($_SESSION['zm_role'] == 2) {
+            echo "Manager";
+        } elseif ($_SESSION['zm_role'] == 3) {
+            echo "Beheerder";
+        }
+    } else {
+        echo "Geen functie";
+    }
+}

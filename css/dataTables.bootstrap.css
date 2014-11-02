@@ -295,3 +295,9 @@ div.FixedHeader_Cloned table {
     margin: 0 !important
 }
 
+/*
+ * Datatables remove searchbox
+ */
+.dataTables_filter {
+    display: none;
+}

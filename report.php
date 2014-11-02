@@ -11,6 +11,7 @@ if (!isset($_SESSION['personell_nr'])) {
 }
 
 require_once('connectvars.php');
+require_once('include/functies.php');
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $query = "SELECT ziekmelding_id, ziekdatum, beterdatum, personell_nr FROM ziekmeldingen";
 $data = mysqli_query($dbc, $query);
@@ -47,7 +48,24 @@ $data = mysqli_query($dbc, $query);
     <script type="text/javascript" language="javascript" src="js/dataTables.bootstrap.js"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
-            $('#example').dataTable();
+            // Setup - add a text input to each footer cell
+            $('#example tfoot th').each( function () {
+                var title = $('#example thead th').eq( $(this).index() ).text();
+                $(this).html( '<input type="text" class="form-control" placeholder="'+title+'" />' );
+            } );
+
+            // DataTable
+            var table = $('#example').DataTable();
+
+            // Apply the search
+            table.columns().eq( 0 ).each( function ( colIdx ) {
+                $( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
+                    table
+                        .column( colIdx )
+                        .search( this.value )
+                        .draw();
+                } );
+            } );
         } );
     </script>
 
@@ -125,13 +143,21 @@ $data = mysqli_query($dbc, $query);
                                     }
                                 } ?>
                             </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>ID</td>
+                                <th>Personeel Nummer</th>
+                                <th>Ziek Sinds</th>
+                                <th>Beter sinds</th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
                     <br>
                     <br>
                     <br>
                     <br>
-                    <p>User Role ziekmelding: <?php echo $_SESSION['zm_role'];?></p>
+                    <p>User Role ziekmelding: <?php user_role(); ?></p>
                     <p>Personeel nummer: <?php echo $_SESSION['personell_nr'];?></p>
                     <p><?php echo print_r($_SESSION); ?></p>
 

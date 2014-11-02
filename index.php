@@ -19,7 +19,7 @@ if (!isset($_SESSION['login_id'])) {
 
         if (!empty($user_username) && !empty($user_password)) {
             // Look up the username and password in the database
-            $query = "SELECT personell_nr, login_id, zm_role FROM care_users WHERE personell_nr = '$user_username' AND password = MD5('$user_password')";
+            $query = "SELECT name, personell_nr, login_id, zm_role FROM care_users WHERE personell_nr = '$user_username' AND password = MD5('$user_password')";
             $data = mysqli_query($dbc, $query);
 
             if (mysqli_num_rows($data) == 1) {
@@ -28,9 +28,11 @@ if (!isset($_SESSION['login_id'])) {
                 $_SESSION['personell_nr'] = $row['personell_nr'];
                 $_SESSION['login_id'] = $row['login_id'];
                 $_SESSION['zm_role'] = $row['zm_role'];
+                $_SESSION['name'] = $row['name'];
                 setcookie('personell_nr', $row['personell_nr'], time() + (60 * 60 * 24 * 30));    // expires in 30 days
                 setcookie('login_id', $row['login_id'], time() + (60 * 60 * 24 * 30));  // expires in 30 days
                 setcookie('zm_role', $row['zm_role'], time() + (60 * 60 * 24 * 30)); // expires in 30 days
+                setcookie('name', $row['name'], time() + (60 * 60 * 24 * 30)); // expires in 30 days
                 $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/ziekmeld.php';
                 header('Location: ' . $home_url);
             }
@@ -85,7 +87,7 @@ if (empty($_SESSION['personell_nr'])) {
         <h3></h3>
         <form class="form-signin" role="form" method="post" autocomplete="off" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <h2 class="form-signin-heading">Please sign in</h2>
-              <input type="text" name="username" class="form-control" placeholder="Personeel nummer" value="<?php if (!empty($user_username)) echo $user_username; ?>" pattern="^[0-9]*$">
+            <input type="number" name="username" class="form-control" placeholder="Personeel nummer" value="<?php if (!empty($user_username)) echo $user_username; ?>" pattern="^[0-9]*$">
             <input type="password" name="password" class="form-control" placeholder="Wachtwoord" required>
             <button class="btn btn-lg btn-primary btn-block" name="submit" type="submit">Sign in</button>
         </form>
