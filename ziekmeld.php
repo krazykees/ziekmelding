@@ -11,8 +11,10 @@ if (!isset($_SESSION['personell_nr'])) {
 }
 require_once('connectvars.php');
 require_once('include/functies.php');
-set_ziek($_SESSION['personell_nr']);
 
+if (isset($_SESSION['login_id'])) {
+    set_ziek($_SESSION['personell_nr']);
+}
 
 ?>
 
@@ -110,13 +112,11 @@ if (isset($_SESSION['login_id'])) {
                         <button class="btn btn-danger btn-lg btn-block">Afmelden</button>
                     </form>
                     <br>
-                    <br>
-                    <br>
-                    <p>User Role ziekmelding: <?php echo $_SESSION['zm_role'];?></p>
-                    <p>Personeel nummer: <?php echo $_SESSION['personell_nr'];?></p>
-                    <p><?php echo print_r($_SESSION); ?></p>
-
-                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+                    <?php if ($_SESSION['ziek'] == 1) { ?>
+                        <div class="panel panel-collapse">
+                            <p class="text-primary text-center">U bent ziek sinds: <?php ziek_sinds(); ?></p>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

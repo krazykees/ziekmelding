@@ -57,7 +57,7 @@ function zieken() {
     if ($result->num_rows > 0) {
         // output data of each row
         while ($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . $row["ziekdatum"] . "</td></tr>\n ";
+            echo "<tr><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . substr($row["ziekdatum"], 0, 10) . "</td></tr>\n ";
         }
     }
 }
@@ -76,4 +76,16 @@ function history() {
     }
 
 
+}
+
+function ziek_sinds(){
+    $personell_nr = $_SESSION['personell_nr'];
+
+    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    $query = "SELECT ziekdatum FROM ziekmeldingen WHERE personell_nr = $personell_nr";
+    $result = mysqli_query($dbc, $query);
+
+    $row = mysqli_fetch_array($result);
+    echo substr($row['ziekdatum'], 0, 10);
 }

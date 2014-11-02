@@ -143,29 +143,36 @@ $data = mysqli_query($dbc, $query);
 
     <div id="page-content-wrapper">
         <div class="container-fluid">
-            <div class="page-header">
-                <h1>Rapportage</h1>
-            </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <h3>Zieken</h3>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>Zieken</strong>
+                        </div>
+                        <div class="panel-body">
+                            <p>Personeel momenteel ziek.</p>
+                        </div>
+                        <table class="table table-responsive table-striped table-hover" width="100%" cellspacing="0" id="zieken">
+                            <thead>
+                            <tr>
+                                <th>Personeel nummer</th>
+                                <th>Naam</th>
+                                <th>Ziek Sinds</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php zieken(); ?>
+                            </tbody>
+                        </table>
+                    </div>
                     <br>
-                    <table class="table table-responsive table-striped table-hover" width="100%" cellspacing="0" id="zieken">
-                        <thead>
-                        <tr>
-                            <th>Personeel nummer</th>
-                            <th>Naam</th>
-                            <th>Ziek Sinds</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php zieken(); ?>
-                        </tbody>
-                    </table>
-
-                    <h3>Ziekmeld Historie</h3>
-                    <br>
-                    <div class="well-sm">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>Ziekmeld historie</strong>
+                        </div>
+                        <div class="panel-body">
+                            <p>Alle ziekmeldingen</p>
+                        </div>
                         <table class="table table-responsive table-striped table-hover" width=100%" cellspacing="0" id="example">
                             <thead>
                             <tr>

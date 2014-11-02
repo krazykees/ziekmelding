@@ -146,6 +146,9 @@ if (isset($_SESSION['login_id']) && ($_SESSION['zm_role']) >= 2) {
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>Beheer gebruikers rollen</strong>
+                        </div>
                         <div class="panel-body">
                             <form class="form-inline" role="form" method="post" action="include/set_zmr.php">
                                 <div class="form-group">
@@ -161,7 +164,6 @@ if (isset($_SESSION['login_id']) && ($_SESSION['zm_role']) >= 2) {
                                 <button type="submit" class="btn btn-default">Veranderen</button>
                             </form>
                         </div>
-                    </div>
                         <table class="table table-responsive table-striped table-hover" width=100%" cellspacing="0" id="example">
                             <thead>
                             <tr>
@@ -187,6 +189,7 @@ if (isset($_SESSION['login_id']) && ($_SESSION['zm_role']) >= 2) {
                             </tr>
                             </tfoot>
                         </table>
+                    </div>
                 </div>
             </div>
         </div>
