@@ -9,6 +9,13 @@ if (!isset($_SESSION['personell_nr'])) {
         $_SESSION['zm_role'] = $_COOKIE['zm_role'];
     }
 }
+
+require_once('connectvars.php');
+require_once('include/functies.php');
+$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$query = "SELECT personell_nr, name, zm_role FROM care_users";
+$data = mysqli_query($dbc, $query);
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -33,6 +40,54 @@ if (!isset($_SESSION['personell_nr'])) {
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- dataTable scripts -->
+    <link href="css/dataTables.bootstrap.css" rel="stylesheet">
+    <script type="text/javascript" language="javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="js/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            // Setup - add a text input to each footer cell
+            $('#example tfoot th').each( function () {
+                var title = $('#example thead th').eq( $(this).index() ).text();
+                $(this).html( '<input type="text" class="form-control" placeholder="'+title+'" />' );
+            } );
+
+            // DataTable
+            var table = $('#example').DataTable( {
+                "language": {
+                    "sProcessing": "Bezig...",
+                    "sLengthMenu": "_MENU_ resultaten weergeven",
+                    "sZeroRecords": "Geen data om weer te geven",
+                    "sInfo": "Resulaten _START_ tot _END_ van _TOTAL_ weergegeven",
+                    "sInfoEmpty": "Geen data om weer te geven",
+                    "sInfoFiltered": " (gefilterd uit _MAX_ regels)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Zoeken:",
+                    "sEmptyTable": "Geen gegevens aanwezig in de tabel",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                    "oPaginate": {
+                        "sFirst": "Eerste pagina",
+                        "sLast": "Laatste pagina",
+                        "sNext": "Volgende pagina",
+                        "sPrevious": "Vorige pagina"
+                    }
+                }
+            });
+
+            // Apply the search
+            table.columns().eq( 0 ).each( function ( colIdx ) {
+                $( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
+                    table
+                        .column( colIdx )
+                        .search( this.value )
+                        .draw();
+                } );
+            } );
+        } );
+    </script>
 
 </head>
 <body>
@@ -90,12 +145,48 @@ if (isset($_SESSION['login_id']) && ($_SESSION['zm_role']) >= 2) {
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Ziekmelden</h1>
-                    <p>User Role ziekmelding: <?php echo $_SESSION['zm_role'];?></p>
-                    <p>Personeel nummer: <?php echo $_SESSION['personell_nr'];?></p>
-                    <p><?php echo print_r($_SESSION); ?></p>
-
-                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form class="form-inline" role="form" method="post" action="include/set_zmr.php">
+                                <div class="form-group">
+                                    <input type="number" class="form-control" name="personell_nr" placeholder="Personeel Nummer">
+                                </div>
+                                <div class="form-group">
+                                    <select name="zmr" class="form-control">
+                                        <option value="1">Gebruiker</option>
+                                        <option value="2">Personeels Zaken</option>
+                                        <option value="3">Beheerder</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default">Veranderen</button>
+                            </form>
+                        </div>
+                    </div>
+                        <table class="table table-responsive table-striped table-hover" width=100%" cellspacing="0" id="example">
+                            <thead>
+                            <tr>
+                                <th>Personeel nummer</th>
+                                <th>Naam</th>
+                                <th>Ziekmelding rol</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            if ($data->num_rows > 0) {
+                                // output data of each row
+                                while ($row = $data->fetch_assoc()) {
+                                    echo "<tr><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . $row["zm_role"] . "</td></tr>\n ";
+                                }
+                            } ?>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Personeel nummer</th>
+                                <th>Naam</th>
+                                <th>Ziekmelding rol</th>
+                            </tr>
+                            </tfoot>
+                        </table>
                 </div>
             </div>
         </div>
@@ -119,9 +210,6 @@ $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 mysqli_close($dbc);
 ?>
 <!-- Content -->
-
-<!-- jQuery Version 1.11.0 -->
-<script src="js/jquery-1.11.1.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>

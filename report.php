@@ -107,6 +107,11 @@ $data = mysqli_query($dbc, $query);
             <?php if ($_SESSION['zm_role'] >= 2) { ?>
                 <li>
                     <a href="report.php"><span class="glyphicon glyphicon-list-alt"></span> Rapportage</a>
+                    <ul>
+                        <li>
+                            <a href="#">Zieken: <span class="badge"><?php aantal_zieken(); ?></span></a>
+                        </li>
+                    </ul>
                 </li>
             <?php
             }
@@ -143,32 +148,41 @@ $data = mysqli_query($dbc, $query);
             </div>
             <div class="row">
                 <div class="col-lg-12">
+                    <h3>Zieken</h3>
+                    <br>
+                    <table class="table table-responsive table-striped table-hover" width="100%" cellspacing="0" id="zieken">
+                        <thead>
+                        <tr>
+                            <th>Personeel nummer</th>
+                            <th>Naam</th>
+                            <th>Ziek Sinds</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php zieken(); ?>
+                        </tbody>
+                    </table>
+
                     <h3>Ziekmeld Historie</h3>
                     <br>
                     <div class="well-sm">
                         <table class="table table-responsive table-striped table-hover" width=100%" cellspacing="0" id="example">
                             <thead>
                             <tr>
-                                <th>ID</td>
-                                <th>Personeel Nummer</th>
+                                <th>ID</th>
+                                <th>Personeel nummer</th>
                                 <th>Naam</th>
                                 <th>Ziek Sinds</th>
                                 <th>Beter sinds</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php
-                                if ($data->num_rows > 0) {
-                                    // output data of each row
-                                    while ($row = $data->fetch_assoc()) {
-                                        echo "<tr><td>" . $row["ziekmelding_id"] . "</td><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . $row["ziekdatum"] . "</td><td>" . $row["beterdatum"] . "</td></tr>\n ";
-                                    }
-                                } ?>
+                            <?php history(); ?>
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>ID</td>
-                                <th>Personeel Nummer</th>
+                                <th>ID</th>
+                                <th>Personeel nummer</th>
                                 <th>Naam</th>
                                 <th>Ziek Sinds</th>
                                 <th>Beter sinds</th>
@@ -180,11 +194,9 @@ $data = mysqli_query($dbc, $query);
                     <br>
                     <br>
                     <br>
-                    <p>User Role ziekmelding: <?php user_role(); ?></p>
+                    <p>User Role ziekmelding: <?php user_role($_SESSION['zm_role']); ?></p>
                     <p>Personeel nummer: <?php echo $_SESSION['personell_nr'];?></p>
                     <p><?php echo print_r($_SESSION); ?></p>
-
-                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
                 </div>
             </div>
         </div>
@@ -203,11 +215,8 @@ else {
 }
 
 // Connect to the database
-$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
 mysqli_close($dbc);
 ?>
-<!-- Content -->
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>

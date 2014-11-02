@@ -30,8 +30,10 @@ set_ziek($_SESSION['personell_nr']);
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <?php if ($_SESSION['zm_role'] >= 2) { ?>
     <!-- Custom styles for this template -->
     <link href="css/sidebar.css" rel="stylesheet">
+    <?php } ?>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -46,7 +48,7 @@ if (isset($_SESSION['login_id'])) {
 ?>
 
 <div id="wrapper">
-
+    <?php if ($_SESSION['zm_role'] >= 2) { ?>
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
@@ -87,7 +89,8 @@ if (isset($_SESSION['login_id'])) {
             </div>
         </div><!-- /.container-fluid -->
     </nav>
-
+    <?php } ?>
+    <?php if ($_SESSION['zm_role'] == 1) { echo "<br><br>"; } ?>
     <div id="page-content-wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -102,6 +105,10 @@ if (isset($_SESSION['login_id'])) {
                             <button class="btn btn-warning btn-lg btn-block">Beter melden</button>
                         </form>
                     <?php } ?>
+                    <br>
+                    <form class="form-ziekmelden" role="form" method="post" action="logout.php">
+                        <button class="btn btn-danger btn-lg btn-block">Afmelden</button>
+                    </form>
                     <br>
                     <br>
                     <br>
