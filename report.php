@@ -13,7 +13,8 @@ if (!isset($_SESSION['personell_nr'])) {
 require_once('connectvars.php');
 require_once('include/functies.php');
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-$query = "SELECT ziekmelding_id, ziekdatum, beterdatum, personell_nr FROM ziekmeldingen";
+//$query = "SELECT zm.ziekmelding_id, zm.ziekdatum, beterdatum, personell_nr FROM ziekmeldingen";
+$query = "SELECT ziekmeldingen.ziekmelding_id, ziekmeldingen.ziekdatum, ziekmeldingen.beterdatum, ziekmeldingen.personell_nr, care_users.name FROM ziekmeldingen INNER JOIN care_users ON ziekmeldingen.personell_nr = care_users.personell_nr";
 $data = mysqli_query($dbc, $query);
 
 ?>
@@ -55,7 +56,27 @@ $data = mysqli_query($dbc, $query);
             } );
 
             // DataTable
-            var table = $('#example').DataTable();
+            var table = $('#example').DataTable( {
+                "language": {
+                    "sProcessing": "Bezig...",
+                    "sLengthMenu": "_MENU_ resultaten weergeven",
+                    "sZeroRecords": "Geen data om weer te geven",
+                    "sInfo": "Resulaten _START_ tot _END_ van _TOTAL_ weergegeven",
+                    "sInfoEmpty": "Geen data om weer te geven",
+                    "sInfoFiltered": " (gefilterd uit _MAX_ regels)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Zoeken:",
+                    "sEmptyTable": "Geen gegevens aanwezig in de tabel",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                    "oPaginate": {
+                        "sFirst": "Eerste pagina",
+                        "sLast": "Laatste pagina",
+                        "sNext": "Volgende pagina",
+                        "sPrevious": "Vorige pagina"
+                    }
+                }
+            });
 
             // Apply the search
             table.columns().eq( 0 ).each( function ( colIdx ) {
@@ -113,16 +134,16 @@ $data = mysqli_query($dbc, $query);
                 <a class="navbar-brand" id="menu-toggle" href="#menu-toggle"><span class="glyphicon glyphicon-th-list"></span></a>
             </div>
         </div><!-- /.container-fluid -->
-
     </nav>
 
     <div id="page-content-wrapper">
         <div class="container-fluid">
+            <div class="page-header">
+                <h1>Rapportage</h1>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Ziekmeld Historie</h1>
-                    <br>
-                    <br>
+                    <h3>Ziekmeld Historie</h3>
                     <br>
                     <div class="well-sm">
                         <table class="table table-responsive table-striped table-hover" width=100%" cellspacing="0" id="example">
@@ -130,6 +151,7 @@ $data = mysqli_query($dbc, $query);
                             <tr>
                                 <th>ID</td>
                                 <th>Personeel Nummer</th>
+                                <th>Naam</th>
                                 <th>Ziek Sinds</th>
                                 <th>Beter sinds</th>
                             </tr>
@@ -139,7 +161,7 @@ $data = mysqli_query($dbc, $query);
                                 if ($data->num_rows > 0) {
                                     // output data of each row
                                     while ($row = $data->fetch_assoc()) {
-                                        echo "<tr><td>" . $row["ziekmelding_id"] . "</td><td>" . $row["personell_nr"] . "</td><td>" . $row["ziekdatum"] . "</td><td>" . $row["beterdatum"] . "</td></tr>\n ";
+                                        echo "<tr><td>" . $row["ziekmelding_id"] . "</td><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . $row["ziekdatum"] . "</td><td>" . $row["beterdatum"] . "</td></tr>\n ";
                                     }
                                 } ?>
                             </tbody>
@@ -147,6 +169,7 @@ $data = mysqli_query($dbc, $query);
                             <tr>
                                 <th>ID</td>
                                 <th>Personeel Nummer</th>
+                                <th>Naam</th>
                                 <th>Ziek Sinds</th>
                                 <th>Beter sinds</th>
                             </tr>
