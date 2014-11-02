@@ -8,9 +8,6 @@
 
 function set_ziek($personell_nr) {
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-    //$query = "SELECT beterdatum FROM ziekmeldingen WHERE personell_nr = $personell_nr AND beterdatum is NULL";
-
-    //mysqli_query($dbc, $query);
 
     $query = "SELECT ziek FROM care_users WHERE personell_nr = $personell_nr";
 
@@ -45,6 +42,26 @@ function aantal_zieken() {
     $result = mysqli_query($dbc, $query);
 
     echo mysqli_num_rows($result);
+    mysqli_close($dbc);
+}
+
+function laatste_x_ziek() {
+    $personell_nr = $_SESSION['personell_nr'];
+    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    $query = "SELECT beterdatum, ziekdatum FROM ziekmeldingen WHERE personell_nr = $personell_nr ORDER BY ziekmelding_id DESC LIMIT 1";
+    $result = mysqli_query($dbc, $query);
+    $row = mysqli_fetch_array($result);
+
+    $ziekdatum = strtotime($row['ziekdatum']);
+    $beterdatum = strtotime($row['beterdatum']);
+
+    if (mysqli_num_rows($result) == 1) {
+        echo date('d F Y', $ziekdatum) . ' tot ' . date('d F Y', $beterdatum) . '.';
+    } else {
+        echo 'nooit!';
+    }
+    
     mysqli_close($dbc);
 }
 

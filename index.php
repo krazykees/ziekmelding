@@ -87,7 +87,7 @@ if (empty($_SESSION['personell_nr'])) {
         <h3></h3>
         <form class="form-signin" role="form" method="post" autocomplete="off" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <h2 class="form-signin-heading">Please sign in</h2>
-            <input type="number" name="username" class="form-control" placeholder="Personeel nummer" value="<?php if (!empty($user_username)) echo $user_username; ?>" pattern="^[0-9]*$">
+            <input type="number" name="username" class="form-control" autofocus placeholder="Personeel nummer" value="<?php if (!empty($user_username)) echo $user_username; ?>" pattern="^[0-9]*$">
             <input type="password" name="password" class="form-control" placeholder="Wachtwoord" required>
             <button class="btn btn-lg btn-primary btn-block" name="submit" type="submit">Sign in</button>
         </form>

@@ -97,6 +97,7 @@ if (isset($_SESSION['login_id'])) {
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
+                    <p class="text-center"><strong>Hallo, <?php echo $_SESSION['name']; ?></strong></p>
                     <?php if ($_SESSION['ziek'] == '0') { ?>
                     <form class="form-ziekmelden" role="form" method="post" action="include/ziekmelden.php">
                         <button class="btn btn-primary btn-lg btn-block">Ziek melden</button>
@@ -116,7 +117,11 @@ if (isset($_SESSION['login_id'])) {
                         <div class="panel panel-collapse">
                             <p class="text-primary text-center">U bent ziek sinds: <?php ziek_sinds(); ?></p>
                         </div>
-                    <?php } ?>
+                    <?php } else {?>
+                        <div class="panel panel-collapse">
+                            <p class="text-primary text-center">U was voor het laatst ziek in de periode: <?php laatste_x_ziek(); ?></p>
+                        </div>
+                    <?php }?>
                 </div>
             </div>
         </div>
