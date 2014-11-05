@@ -13,7 +13,8 @@ if (!isset($_SESSION['personell_nr'])) {
 require_once('connectvars.php');
 require_once('include/functies.php');
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-$query = "SELECT personell_nr, name, zm_role FROM care_users";
+//$query = "SELECT zm.ziekmelding_id, zm.ziekdatum, beterdatum, personell_nr FROM ziekmeldingen";
+$query = "SELECT ziekmeldingen.ziekmelding_id, ziekmeldingen.ziekdatum, ziekmeldingen.beterdatum, ziekmeldingen.personell_nr, care_users.name FROM ziekmeldingen INNER JOIN care_users ON ziekmeldingen.personell_nr = care_users.personell_nr";
 $data = mysqli_query($dbc, $query);
 
 ?>
@@ -56,7 +57,7 @@ $data = mysqli_query($dbc, $query);
 
             // DataTable
             var table = $('#example').DataTable( {
-                saveState: true,
+                stateSave: true,
                 "language": {
                     "sProcessing": "Bezig...",
                     "sLengthMenu": "_MENU_ resultaten weergeven",
@@ -90,17 +91,11 @@ $data = mysqli_query($dbc, $query);
         } );
     </script>
 
+
 </head>
 <body>
-<?php
-require_once('appvars.php');
-require_once('connectvars.php');
-
-if (isset($_SESSION['login_id']) && ($_SESSION['zm_role']) >= 3) {
-?>
-
+<?php if ((isset($_SESSION['login_id']) && isset($_SESSION['zm_role'])) && ($_SESSION['zm_role'] == 2) || $_SESSION['zm_role'] >= 4) { ?>
 <div id="wrapper">
-
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
@@ -110,19 +105,18 @@ if (isset($_SESSION['login_id']) && ($_SESSION['zm_role']) >= 3) {
             <li>
                 <a href="ziekmeld.php"><span class="glyphicon glyphicon-user"></span> Ziek melden</a>
             </li>
-            <?php if ($_SESSION['zm_role'] == 2 || $_SESSION['zm_role'] >= 4) { ?>
+            <ul>
                 <li>
-                    <a href="report.php"><span class="glyphicon glyphicon-list-alt"></span> Rapportage</a>
+                    <a href="medewerkerziek.php">Medewerkers Ziek melden</a>
                 </li>
-            <?php
-            }
-            if ($_SESSION['zm_role'] >= 3) { ?>
+            </ul>
+            <li>
+                <a href="report.php"><span class="glyphicon glyphicon-list-alt"></span> Rapportage</a>
+            </li>
                 <li>
                     <a href="manage.php"><span class="glyphicon glyphicon-cog"></span> Beheer</a>
                 </li>
-            <?php
-            }
-            ?>
+
             <li>
                 <a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Afmelden</a>
             </li>
@@ -148,54 +142,43 @@ if (isset($_SESSION['login_id']) && ($_SESSION['zm_role']) >= 3) {
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <strong>Beheer gebruikers rollen</strong>
+                            <strong>Ziekmelden van personeel</strong>
+                            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
                         </div>
                         <div class="panel-body">
-                            <form class="form-inline" role="form" method="post" action="include/set_zmr.php">
-                                <div class="form-group">
-                                    <input type="number" class="form-control" name="personell_nr" placeholder="Personeel Nummer">
-                                </div>
-                                <div class="form-group">
-                                    <select name="zmr" class="form-control">
-                                        <option value="1">Gebruiker</option>
-                                        <option value="2">Personeels Zaken</option>
-                                        <option value="3">Beheerder</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-default">Veranderen</button>
-                            </form>
+                            <p>Personeel ziek melden</p>
                         </div>
-                        <table class="table table-responsive table-striped table-hover" width=100%" cellspacing="0" id="example">
+                        <table class="table table-responsive table-striped table-hover panel-body" width="100%" cellspacing="0" id="example">
                             <thead>
                             <tr>
                                 <th>Personeel nummer</th>
                                 <th>Naam</th>
-                                <th>Ziekmelding rol</th>
+                                <th>Ziek</th>
+                                <th>Afdeling</th>
+                                <th>Wijzigen</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php
-                            if ($data->num_rows > 0) {
-                                // output data of each row
-                                while ($row = $data->fetch_assoc()) {
-                                    //echo "<tr><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . $row["zm_role"] . "</td></tr>\n ";
-                                    echo '<tr>';
-                                    echo '<td>', $row['personell_nr'], '</td>';
-                                    echo '<td>', $row['name'], '</td>';
-                                    echo '<td>', $row['zm_role'], '</td>';
-                                    echo "</tr>\n" ;
-                                }
-                            } ?>
+                                <?php personeel(); ?>
                             </tbody>
                             <tfoot>
                             <tr>
                                 <th>Personeel nummer</th>
                                 <th>Naam</th>
-                                <th>Ziekmelding rol</th>
+                                <th>Ziek</th>
+                                <th>Afdeling</th>
+                                <th>Wijzigen</th>
                             </tr>
                             </tfoot>
                         </table>
                     </div>
+                </div>
+                <div class="col-lg-12">
+                    <br>
+                    <br>
+                    <p>User Role ziekmelding: <?php user_role($_SESSION['zm_role']); ?></p>
+                    <p>Personeel nummer: <?php echo $_SESSION['personell_nr'];?></p>
+                    <p><?php echo print_r($_SESSION); ?></p>
                 </div>
             </div>
         </div>
@@ -213,8 +196,9 @@ else {
     echo '<a href="signup.php">Sign Up</a>';
 }
 
+// Connect to the database
+mysqli_close($dbc);
 ?>
-<!-- Content -->
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
@@ -226,6 +210,27 @@ else {
         $("#wrapper").toggleClass("toggled");
     });
 </script>
+
+<!-- Panel toggle script -->
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('.panel-heading span.clickable').on("click", function (e) {
+            if ($(this).hasClass('panel-collapsed')) {
+                // expand the panel
+                $(this).parents('.panel').find('.panel-body').slideDown();
+                $(this).removeClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            }
+            else {
+                // collapse the panel
+                $(this).parents('.panel').find('.panel-body').slideUp();
+                $(this).addClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+            }
+        });
+    });
+</script>
+
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>

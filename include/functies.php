@@ -74,7 +74,15 @@ function zieken() {
     if ($result->num_rows > 0) {
         // output data of each row
         while ($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . substr($row["ziekdatum"], 0, 10) . "</td></tr>\n ";
+            //echo "<tr><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . substr($row["ziekdatum"], 0, 10) . "</td></tr>\n ";
+            echo "<tr>";
+            echo "<td>", $row['personell_nr'], "</td>";
+            echo "<td>", $row['name'], "</td>";
+            echo "<td>", $row['ziekdatum'], "</td>";
+            echo '<td>';
+            echo '<a class="btn btn-success" href="include/medewerker_ziekmelden.php?id='.$row['personell_nr'].'&ref=report">Beter melden</a>';
+            echo '</td>';
+            echo '</tr>';
         }
     }
 }
@@ -88,7 +96,14 @@ function history() {
     if ($result->num_rows > 0) {
         // output data of each row
         while ($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $row["ziekmelding_id"] . "</td><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . $row["ziekdatum"] . "</td><td>" . $row["beterdatum"] . "</td></tr>\n ";
+            //echo "<tr><td>" . $row["ziekmelding_id"] . "</td><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . $row["ziekdatum"] . "</td><td>" . $row["beterdatum"] . "</td></tr>\n ";
+            echo '<tr>';
+            echo '<td>', $row['ziekmelding_id'], '</td>';
+            echo '<td>', $row['personell_nr'], '</td>';
+            echo '<td>', $row['name'], '</td>';
+            echo '<td>', $row['ziekdatum'], '</td>';
+            echo '<td>', $row['beterdatum'], '</td>';
+            echo '</tr>';
         }
     }
 
@@ -130,7 +145,22 @@ function personeel() {
         while ($row = $result->fetch_assoc()) {
             preg_match('/"([^"]+)"/', $row['dept_nr'], $afdeling);
             $afdeling_naam = afdeling_nr2txt($afdeling[1]);
-            echo "<tr><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . $row["ziek"] . "</td><td>" . $afdeling_naam . "</td></tr>\n ";
+            //echo "<tr><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . $row["ziek"] . "</td><td>" . $afdeling_naam . "</td></tr>\n ";
+            echo '<tr>';
+            echo "<td>", $row['personell_nr'], '</td>';
+            echo "<td>", $row['name'], '</td>';
+            echo "<td>", $row['ziek'], '</td>';
+            echo "<td>", $afdeling_naam, '</td>';
+            echo '<td>';
+            //echo '<a class="btn btn-primary btn-lg" href="read.php?id='.$row['personell_nr'].'">Bekijk</a>';
+            //echo ' ';
+            if ($row['ziek'] == 1) {
+                echo '<a class="btn btn-success btn-block" href="include/medewerker_ziekmelden.php?id='.$row['personell_nr'].'&ref=medewerkerziek">Beter melden</a>';
+            } else {
+                echo '<a class="btn btn-danger btn-block" href="include/medewerker_ziekmelden.php?id=' . $row['personell_nr'] . '&ref=medewerkerziek">Ziek melden</a>';
+            }
+            echo '</td>';
+            echo '</tr>', "\n";
         }
     }
 }

@@ -22,6 +22,5 @@ mysqli_query($dbc, $query);
 mysqli_close($dbc);
 
 $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/../ziekmeld.php';
-echo $home_url;
 header('Location: ' . $home_url);
 ?>

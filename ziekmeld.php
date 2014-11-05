@@ -58,9 +58,14 @@ if (isset($_SESSION['login_id'])) {
                 <p>MiddenPolder</p>
             </li>
             <li>
-                <a href="ziekmeld.php"><span class="glyphicon glyphicon-user"></span> Ziekmelden</a>
+                <a href="ziekmeld.php"><span class="glyphicon glyphicon-user"></span> Ziek melden</a>
+                <?php if ($_SESSION['zm_role'] ==2 || $_SESSION['zm_role'] >= 4) { ?>
+                    <ul>
+                        <li>
+                            <a href="medewerkerziek.php">Medewerkers Ziek melden</a>
+                        </li>
+                    </ul>
             </li>
-            <?php if ($_SESSION['zm_role'] >= 2) { ?>
                 <li>
                     <a href="report.php"><span class="glyphicon glyphicon-list-alt"></span> Rapportage</a>
                 </li>

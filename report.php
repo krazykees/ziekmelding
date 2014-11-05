@@ -57,6 +57,7 @@ $data = mysqli_query($dbc, $query);
 
             // DataTable
             var table = $('#example').DataTable( {
+                stateSave: true,
                 "language": {
                     "sProcessing": "Bezig...",
                     "sLengthMenu": "_MENU_ resultaten weergeven",
@@ -102,14 +103,14 @@ $data = mysqli_query($dbc, $query);
                 <p>MiddenPolder</p>
             </li>
             <li>
-                <a href="ziekmeld.php"><span class="glyphicon glyphicon-user"></span> Ziekmelden</a>
+                <a href="ziekmeld.php"><span class="glyphicon glyphicon-user"></span> Ziek melden</a>
             </li>
-            <?php if ($_SESSION['zm_role'] >= 2) { ?>
+            <?php if ($_SESSION['zm_role'] == 2 || $_SESSION['zm_role'] >= 4) { ?>
                 <li>
                     <a href="report.php"><span class="glyphicon glyphicon-list-alt"></span> Rapportage</a>
                     <ul>
                         <li>
-                            <a href="#">Zieken: <span class="badge"><?php aantal_zieken(); ?></span></a>
+                            <a href=#>Zieken: <span class="badge"><?php aantal_zieken(); ?></span></a>
                         </li>
                     </ul>
                 </li>
@@ -147,39 +148,6 @@ $data = mysqli_query($dbc, $query);
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <strong>Ziekmelden van personeel</strong>
-                            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                        </div>
-                        <div class="panel-body">
-                            <p>Personeel ziek melden</p>
-                        </div>
-                        <table class="table table-responsive table-striped table-hover panel-body" width="100%" cellspacing="0" id="zieken">
-                            <thead>
-                            <tr>
-                                <th>Personeel nummer</th>
-                                <th>Naam</th>
-                                <th>Ziek</th>
-                                <th>Afdeling</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <?php personeel(); ?>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Personeel nummer</th>
-                                <th>Naam</th>
-                                <th>Ziek</th>
-                                <th>Afdeling</th>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-                <br>
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
                             <strong>Zieken</strong>
                             <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
                         </div>
@@ -192,6 +160,7 @@ $data = mysqli_query($dbc, $query);
                                 <th>Personeel nummer</th>
                                 <th>Naam</th>
                                 <th>Ziek Sinds</th>
+                                <th>Beter Melden</th>
                             </tr>
                             </thead>
                             <tbody>
