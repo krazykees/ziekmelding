@@ -147,12 +147,46 @@ $data = mysqli_query($dbc, $query);
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            <strong>Ziekmelden van personeel</strong>
+                            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                        </div>
+                        <div class="panel-body">
+                            <p>Personeel ziek melden</p>
+                        </div>
+                        <table class="table table-responsive table-striped table-hover panel-body" width="100%" cellspacing="0" id="zieken">
+                            <thead>
+                            <tr>
+                                <th>Personeel nummer</th>
+                                <th>Naam</th>
+                                <th>Ziek</th>
+                                <th>Afdeling</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <?php personeel(); ?>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Personeel nummer</th>
+                                <th>Naam</th>
+                                <th>Ziek</th>
+                                <th>Afdeling</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
                             <strong>Zieken</strong>
+                            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
                         </div>
                         <div class="panel-body">
                             <p>Personeel momenteel ziek.</p>
                         </div>
-                        <table class="table table-responsive table-striped table-hover" width="100%" cellspacing="0" id="zieken">
+                        <table class="table table-responsive table-striped table-hover panel-body" width="100%" cellspacing="0" id="zieken">
                             <thead>
                             <tr>
                                 <th>Personeel nummer</th>
@@ -161,19 +195,22 @@ $data = mysqli_query($dbc, $query);
                             </tr>
                             </thead>
                             <tbody>
-                            <?php zieken(); ?>
+                                <?php zieken(); ?>
                             </tbody>
                         </table>
                     </div>
-                    <br>
+                </div>
+                <br>
+                <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <strong>Ziekmeld historie</strong>
+                            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
                         </div>
                         <div class="panel-body">
                             <p>Alle ziekmeldingen</p>
                         </div>
-                        <table class="table table-responsive table-striped table-hover" width=100%" cellspacing="0" id="example">
+                        <table class="table table-responsive table-striped table-hover panel-body" width=100%" cellspacing="0" id="example">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -184,7 +221,7 @@ $data = mysqli_query($dbc, $query);
                             </tr>
                             </thead>
                             <tbody>
-                            <?php history(); ?>
+                                <?php history(); ?>
                             </tbody>
                             <tfoot>
                             <tr>
@@ -235,6 +272,27 @@ mysqli_close($dbc);
         $("#wrapper").toggleClass("toggled");
     });
 </script>
+
+<!-- Panel toggle script -->
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('.panel-heading span.clickable').on("click", function (e) {
+            if ($(this).hasClass('panel-collapsed')) {
+                // expand the panel
+                $(this).parents('.panel').find('.panel-body').slideDown();
+                $(this).removeClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            }
+            else {
+                // collapse the panel
+                $(this).parents('.panel').find('.panel-body').slideUp();
+                $(this).addClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+            }
+        });
+    });
+</script>
+
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>

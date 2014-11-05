@@ -207,10 +207,6 @@ else {
     echo '<a href="signup.php">Sign Up</a>';
 }
 
-// Connect to the database
-$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-mysqli_close($dbc);
 ?>
 <!-- Content -->
 

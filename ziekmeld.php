@@ -141,8 +141,6 @@ else {
 
 <!-- jQuery Version 1.11.0 -->
 <script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/jquery.dataTables.min.js"></script>
-<script src="js/dataTables.bootstrap.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>

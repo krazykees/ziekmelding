@@ -92,10 +92,50 @@ function history() {
         }
     }
 
-
 }
 
-function ziek_sinds(){
+function ziek_sinds() {
+    $personell_nr = $_SESSION['personell_nr'];
+
+    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    $query = "SELECT ziekdatum FROM ziekmeldingen WHERE personell_nr = $personell_nr";
+    $result = mysqli_query($dbc, $query);
+
+    $row = mysqli_fetch_array($result);
+    echo substr($row['ziekdatum'], 0, 10);
+}
+
+function afdeling_nr2txt($nr) {
+    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    $query = "SELECT name_formal FROM care_department WHERE nr = $nr LIMIT 1";
+    $result = mysqli_query($dbc, $query);
+
+    $row = mysqli_fetch_array($result);
+    return $row['name_formal'];
+}
+
+function personeel() {
+    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    $regex = '/"([^"]+)"/';
+
+    // $query = "SELECT care_users.personell_nr, care_users.name, care_users.ziek, care_users.dept_nr FROM care_users INNER JOIN care_department ON care_department.nr = care_users.dept_nr REGEXP \'/\"([^\"]+)\"/\'";";
+    $query = "SELECT care_users.personell_nr, care_users.name, care_users.ziek, care_users.dept_nr FROM care_users";
+    $result = mysqli_query($dbc, $query);
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while ($row = $result->fetch_assoc()) {
+            preg_match('/"([^"]+)"/', $row['dept_nr'], $afdeling);
+            $afdeling_naam = afdeling_nr2txt($afdeling[1]);
+            echo "<tr><td>" . $row["personell_nr"] . "</td><td>" . $row["name"] . "</td><td>" . $row["ziek"] . "</td><td>" . $afdeling_naam . "</td></tr>\n ";
+        }
+    }
+}
+
+function ziek_veranderen() {
     $personell_nr = $_SESSION['personell_nr'];
 
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
