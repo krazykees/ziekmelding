@@ -38,12 +38,12 @@ if (!isset($_SESSION['login_id'])) {
             }
             else {
                 // The username/password are incorrect so set an error message
-                $error_msg = 'Sorry, you must enter a valid username and password to log in.';
+                $error_msg = 'Sorry, Personeelnummer of wachtwoord niet correct.';
             }
         }
         else {
             // The username/password weren't entered so set an error message
-            $error_msg = 'Sorry, you must enter your username and password to log in.';
+            $error_msg = 'Sorry, vul uw Personeelnummer en wachtwoord in.';
         }
     }
   } else {
