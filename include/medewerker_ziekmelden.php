@@ -9,10 +9,10 @@ require_once('../connectvars.php');
 
 session_start();
 
-if (isset($_SESSION['personell_nr']) && ($_SESSION['zm_role'] == 2) || $_SESSION['zm_rol'] >= 4) {
+if (isset($_SESSION['personell_nr']) && ($_SESSION['zm_role'] == 2 || $_SESSION['zm_role'] >= 4)) {
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-    $user = $_GET['id'];
+    $user = mysqli_real_escape_string($dbc, $_GET['id']);
     $query = "SELECT ziek FROM care_users WHERE personell_nr = $user";
     $result = mysqli_query($dbc, $query);
     $row = mysqli_fetch_array($result);

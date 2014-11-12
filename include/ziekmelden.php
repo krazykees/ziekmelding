@@ -11,7 +11,7 @@ require_once('functies.php');
 session_start();
 
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-$personell_nr = $_SESSION['personell_nr'];
+$personell_nr = mysqli_real_escape_string($dbc, $_SESSION['personell_nr']);
 $query = "INSERT INTO ziekmeldingen (personell_nr, ziekdatum) VALUES ($personell_nr, NOW())";
 
 mysqli_query($dbc, $query);

@@ -46,8 +46,9 @@ function aantal_zieken() {
 }
 
 function laatste_x_ziek() {
-    $personell_nr = $_SESSION['personell_nr'];
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    $personell_nr = mysqli_real_escape_string($dbc, $_SESSION['personell_nr']);
 
     $query = "SELECT beterdatum, ziekdatum FROM ziekmeldingen WHERE personell_nr = $personell_nr ORDER BY ziekmelding_id DESC LIMIT 1";
     $result = mysqli_query($dbc, $query);
@@ -110,9 +111,9 @@ function history() {
 }
 
 function ziek_sinds() {
-    $personell_nr = $_SESSION['personell_nr'];
-
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    $personell_nr = mysqli_real_escape_string($dbc, $_SESSION['personell_nr']);
 
     $query = "SELECT ziekdatum FROM ziekmeldingen WHERE personell_nr = $personell_nr";
     $result = mysqli_query($dbc, $query);
@@ -166,9 +167,10 @@ function personeel() {
 }
 
 function ziek_veranderen() {
-    $personell_nr = $_SESSION['personell_nr'];
 
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    $personell_nr = mysqli_real_escape_string($dbc, $_SESSION['personell_nr']);
 
     $query = "SELECT ziekdatum FROM ziekmeldingen WHERE personell_nr = $personell_nr";
     $result = mysqli_query($dbc, $query);

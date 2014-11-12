@@ -10,7 +10,7 @@ require_once('functies.php');
 session_start();
 
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-$personell_nr = $_SESSION['personell_nr'];
+$personell_nr = mysqli_real_escape_string($dbc, $_SESSION['personell_nr']);
 $query = "UPDATE ziekmeldingen SET beterdatum = NOW() WHERE personell_nr = $personell_nr AND beterdatum IS NULL";
 
 mysqli_query($dbc, $query);

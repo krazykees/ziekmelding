@@ -11,7 +11,7 @@ require_once('functies.php');
 
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $zmr = $_POST['zmr'];
-$personell_nr = $_POST['personell_nr'];
+$personell_nr = mysqli_real_escape_string($dbc, $_POST['personell_nr']);
 $query = "UPDATE care_users SET zm_role = $zmr  WHERE personell_nr = $personell_nr";
 
 mysqli_query($dbc, $query);
