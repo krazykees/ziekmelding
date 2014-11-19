@@ -12,6 +12,9 @@ if (!isset($_SESSION['personell_nr'])) {
 require_once('connectvars.php');
 require_once('include/functies.php');
 
+sessie_verlopen();
+
+
 if (isset($_SESSION['login_id'])) {
     set_ziek($_SESSION['personell_nr']);
 }
@@ -108,11 +111,20 @@ if (isset($_SESSION['login_id'])) {
                         <button class="btn btn-primary btn-lg btn-block">Ziek melden</button>
                     </form>
                     <?php
-                    } else { ?>
+                    } else {
+                        if (ziek_laatste_uur() == false) {?>
                         <form class="form-ziekmelden" role="form" method="post" action="include/betermelden.php">
-                            <button class="btn btn-warning btn-lg btn-block">Beter melden</button>
+                            <button class="btn btn-success btn-lg btn-block">Beter melden</button>
                         </form>
-                    <?php } ?>
+                    <?php } else { ?>
+                        <form class="form-ziekmelden" role="form" method="post" action="include/betermelden.php">
+                            <button class="btn btn-success btn-lg btn-block disabled">Beter melden</button>
+                        </form>
+                            <br>
+                            <div style="width: 80%; margin: 0 auto;" class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <strong>Let op!</strong> U kunt uzelf binnen één uur weer beter melden.
+                            </div>                    <?php } } ?>
                     <br>
                     <form class="form-ziekmelden" role="form" method="post" action="logout.php">
                         <button class="btn btn-danger btn-lg btn-block">Afmelden</button>

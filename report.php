@@ -44,9 +44,11 @@ $data = mysqli_query($dbc, $query);
 
     <!-- dataTable scripts -->
     <link href="css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="css/dataTables.responsive.css" rel="stylesheet">
     <script type="text/javascript" language="javascript" src="js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="js/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" language="javascript" src="js/dataTables.responsive.js"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
             // Setup - add a text input to each footer cell
@@ -76,7 +78,13 @@ $data = mysqli_query($dbc, $query);
                         "sNext": "Volgende pagina",
                         "sPrevious": "Vorige pagina"
                     }
-                }
+                },
+                responsive: true
+            });
+
+            $('#zieken').DataTable({
+                stateSave: true,
+                responsive: true
             });
 
             // Apply the search
@@ -154,7 +162,7 @@ $data = mysqli_query($dbc, $query);
                         <div class="panel-body">
                             <p>Personeel momenteel ziek.</p>
                         </div>
-                        <table class="table table-responsive table-striped table-hover panel-body" width="100%" cellspacing="0" id="zieken">
+                        <table class="table table-responsive table-striped table-hover panel-body responsive" width="100%" cellspacing="0" id="zieken">
                             <thead>
                             <tr>
                                 <th>Personeel nummer</th>

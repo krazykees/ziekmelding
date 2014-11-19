@@ -6,8 +6,11 @@
  * Time: 18:31
  */
 require_once('../connectvars.php');
+require_once('functies.php');
 
 session_start();
+sessie_verlopen();
+
 
 if (isset($_SESSION['personell_nr']) && ($_SESSION['zm_role'] == 2 || $_SESSION['zm_role'] >= 4)) {
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);

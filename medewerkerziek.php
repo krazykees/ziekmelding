@@ -44,9 +44,11 @@ $data = mysqli_query($dbc, $query);
 
     <!-- dataTable scripts -->
     <link href="css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="css/dataTables.responsive.css" rel="stylesheet">
     <script type="text/javascript" language="javascript" src="js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="js/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" language="javascript" src="js/dataTables.responsive.js"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
             // Setup - add a text input to each footer cell
@@ -76,7 +78,8 @@ $data = mysqli_query($dbc, $query);
                         "sNext": "Volgende pagina",
                         "sPrevious": "Vorige pagina"
                     }
-                }
+                },
+                responsive: true
             });
 
             // Apply the search

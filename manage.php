@@ -12,6 +12,8 @@ if (!isset($_SESSION['personell_nr'])) {
 
 require_once('connectvars.php');
 require_once('include/functies.php');
+sessie_verlopen();
+
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $query = "SELECT personell_nr, name, zm_role FROM care_users";
 $data = mysqli_query($dbc, $query);
@@ -43,9 +45,11 @@ $data = mysqli_query($dbc, $query);
 
     <!-- dataTable scripts -->
     <link href="css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="css/dataTables.responsive.css" rel="stylesheet">
     <script type="text/javascript" language="javascript" src="js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="js/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" language="javascript" src="js/dataTables.responsive.js"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
             // Setup - add a text input to each footer cell
@@ -75,7 +79,8 @@ $data = mysqli_query($dbc, $query);
                         "sNext": "Volgende pagina",
                         "sPrevious": "Vorige pagina"
                     }
-                }
+                },
+                responsive: true
             });
 
             // Apply the search
@@ -165,7 +170,7 @@ if (isset($_SESSION['login_id']) && ($_SESSION['zm_role']) >= 3) {
                                 <button type="submit" class="btn btn-default">Veranderen</button>
                             </form>
                         </div>
-                        <table class="table table-responsive table-striped table-hover" width=100%" cellspacing="0" id="example">
+                        <table class="table table-responsive table-striped table-hover responsive" width=100%" cellspacing="0" id="example">
                             <thead>
                             <tr>
                                 <th>Personeel nummer</th>
