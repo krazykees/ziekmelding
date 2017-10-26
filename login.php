@@ -84,7 +84,7 @@
       <div class="container">
           <h3></h3>
           <form class="form-signin" role="form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-              <img src="http://i1.kym-cdn.com/entries/icons/original/000/013/564/aP2dv.gif" alt="Doge meme" />
+              <img src="https://i.imgur.com/5imVav9.png" alt="New meme" />
               <h2 class="form-signin-heading">Please sign in</h2>
               <input type="text" name="username" class="form-control" placeholder="Personeel nummer" value="<?php if (!empty($user_username)) echo $user_username; ?>" pattern="[0-9]+ ">
               <input type="password" name="password" class="form-control" placeholder="Wachtwoord" required>
